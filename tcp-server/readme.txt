@@ -1,11 +1,10 @@
 TO DO
-подключить библиотеки 
+РќРµРѕР±С…РѕРґРёРјРѕ РїРѕРґРєР»СЋС‡РёС‚СЊ Р±РёР±Р»РёРѕС‚РµРєРё
 JSON
 https://github.com/nlohmann/json.git
 poolthread
 https://github.com/progschj/ThreadPool.git
 
-Заметка
-Также вручную необходимо подключить библиотеку 
+Р’СЂСѓС‡РЅСѓСЋ С‚Р°РєР¶Рµ РЅСѓР¶РЅРѕ РїРѕРґРєР»СЋС‡РёС‚СЊ 
 SQLiteCpp
 https://github.com/SRombauts/SQLiteCpp.git
