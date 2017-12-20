@@ -1,0 +1,129 @@
+\documentclass[10pt,a4paper,oneside]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage[T1,T2A]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[english, russian]{babel}%Подключаем русский язык.
+\usepackage{graphicx}
+\graphicspath{{pictures/}}
+\RequirePackage{float}
+\usepackage[left=2cm,right=2cm,top=2cm,bottom=2cm]{geometry} % Меняем поля страницы.
+\usepackage{listings}
+\lstdefinestyle{Style}{
+	numbersep=10pt,
+	frame=single,
+	captionpos=b
+}
+
+\begin{document}
+	\begin{titlepage}
+		\newpage
+		\begin{center} % Размещение ткста - по центру
+			Санкт-Петербургский политехнический\\ 
+			университет Петра Великого\\
+			Институт компьютерных наук и технологий\\
+			Кафедра компьютерных систем и программных технологий\\
+			\vspace{7cm}
+			\textbf {Отчёт по лабораторной работе}\\
+			\textbf {Дисциплина:} Телекоммуникационные технологии\\
+			\textbf{Тема:} Реализация TCP-сервера на UNIX системе и клиента на Windows
+		\end{center} % Конец размещения
+		\vspace{8cm} % 
+		
+		\vfill
+		
+		\flushleft{Выполнил студент группы 33501/1} 
+		\hfill\parbox{9 cm}{\hspace*{3cm}\hbox to 0cm{\raisebox{-1em}{\small(подпись)}}\hspace*{-0.8cm}\rule{3cm}{0.8pt}Чурляев Д.О.}\\[0.6cm]
+		
+		\flushleft{Преподаватель} \hfill\parbox{9 cm}{\hspace*{3cm}\hbox to 0cm{\raisebox{-1em}{\small(подпись)}}\hspace*{-0.8cm}\rule{3cm}{0.8pt} Алексюк А. }\\[0.6cm]
+		
+		\hfill\parbox{9 cm}{\hspace*{5cm} \today }\\[0.6cm]
+		\vspace{\fill}
+		\begin{center}
+			Санкт-Петербург \\ 2017
+		\end{center}
+	\end{titlepage}
+	
+\newpage
+\section{Цель работы}
+
+Разработать клиент-серверное приложение «Система выставления курсов валют».\\
+Платформа сервера: UNIX\\
+Платформа клиента: Windows\\
+
+\section{Реализованные функции сервера:}
+
+\begin{itemize}
+\itemПрослушивание определенного порта 
+\itemОбработка запросов на подключение по этому порту клиентов 
+\itemПоддержка одновременной работы нескольких клиентов с использованием механизма нитей и средств синхронизации доступа к разделяемым между нитями ресурсам. 
+\itemПринудительное отключение конкретного клиента 
+\itemДобавление новой валюты (кода валюты) 
+\itemУдаление валюты 
+\itemДобавление курса конкретной валюты 
+\itemВыдача пользователю списка имеющихся валют с текущими курсами и абсолютными/относительными приращениями к предыдущим значениям 
+\itemВыдача пользователю истории курса конкретной валюты 
+\item* Сохранение состояния при выключении сервера
+\end{itemize}
+
+
+\section{Реализованные функции клиента:}
+
+
+\begin{itemize}
+\itemВозможность параллельной работы нескольких клиентов с одного или нескольких IP-адресов 
+\itemУстановление соединения с сервером (возможно, с регистрацией на сервере)
+\itemРазрыв соединения 
+\itemОбработка ситуации отключения сервером 
+\itemПолучение и вывод списка валют с котировками/изменениями 
+\itemПередача команды на добавление валюты 
+\itemПередача команды на удаление валюты 
+\itemПередача команды на добавление курса валюты 
+\itemПолучение и вывод истории котировок валюты 
+\end{itemize}
+\newpage
+
+\section{Формат команды:}
+
+Команды представляют из себя текстовые сообщения, в которых команда и ключ разделены пробелом, если ключ необходим. В клиентских команда перед самой командой необходим символ "/".\\
+
+
+\section{Команды сервера:}
+help: print this help message\\
+list: list connected clients\\
+kill [id]: disconnect client with specifie\\
+killall: disconnect all clients\\
+shutdown: shutdown server\\
+
+
+\section{Команды клиента}
+/add [currency] : add new currency\\
+/addv [currency] [value] : add new value to currency\\
+/del [currency] : remove currency\\
+/all : list all currencies\\
+/hist [currency] : history for currency\\
+
+
+\section{Описание:}
+Для запуска сервера, необходимо сначала включить базу данных, затем сам сервер. Далее клиенты могут подключиться к серверу. Всего в данной реализации на серверном сокете 4 обработчика (workers) поэтому подключиться могут 4 клиента.\\
+Обработчики из себя представляют объекты thread\_pool. По сути это потоки для обработки клиентов.\\
+Для реализования многопоточности используеться epoll или мультеплексировнный вход. epoll обрабатывает сокет и говорит когда им можно пользоваться обработчикам\\
+
+Тип сокета:
+
+socket(AF\_INET, SOCK\_STREAM, 0)
+
+\end{document}
+
+
+
+
+
+
+
+
+
+
+
+
+
